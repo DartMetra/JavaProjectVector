@@ -1,58 +1,68 @@
-import GuiComponents.DefaultButton;
+
+import GuiComponents.VectorVisualisation;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
-public class GUI implements ActionListener {
-  static JTextField t;
-  static JLabel l;
-
-
-  static void main() {
-    JFrame frame = new JFrame();
-
-    JPanel panel = new JPanel();
-
-
-    // create a label to display text
-    l = new JLabel("nothing entered");
-    panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-    panel.setLayout(new GridLayout(10, 10));
-
-    frame.add(panel, BorderLayout.AFTER_LAST_LINE);
-    frame.setDefaultCloseOperation((JFrame.EXIT_ON_CLOSE));
-    frame.setTitle("New GUI");
-    String text = "";
-    JButton dbutton = new DefaultButton("CLICK", 0, 0, 20, 20);
-    dbutton.addActionListener(new GUI());
-    t = new JTextField(16);
-    frame.add(l);
-    frame.add(t);
-
-    frame.add(dbutton);
-
-
-    frame.add(new DefaultButton("2", 30, 30, 20, 20));
-    frame.add(new DefaultButton("3", 60, 60, 20, 20));
-    frame.add(new DefaultButton("4", 0, 0, 20, 20));
-    frame.add(new DefaultButton("5", 0, 0, 20, 20));
-    frame.pack();
-    frame.setVisible(true);
-  }
+public class GUI extends JComponent implements ActionListener {
+  private Vector<String> vector;
+  private JTextField input;
+  private VectorVisualisation vectorTextArea;
+  private JFrame frame;
+  private JButton addButton;
 
   public GUI() {
+    this.frame = new JFrame("Vector Editor");
+    this.vectorTextArea = new VectorVisualisation();
+    this.vector = new Vector<>();
+    this.addButton = new JButton("Add element");
+    this.input = new JTextField(10);
 
+    this.addButton.setActionCommand("AddElem");
+    this.addButton.addActionListener(this);
+
+    this.vector.add("123");
+    this.vector.add("456");
+    this.vector.add("789");
+    this.vector.add("102");
+
+    this.vectorTextArea.visualize(this.vector);
+  }
+
+  public void render() {
+    this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.frame.setLayout(new FlowLayout());
+
+    this.frame.add(this.vectorTextArea);
+    this.frame.add(this.addButton);
+    this.frame.add(this.input);
+
+    this.frame.pack();
+    this.frame.setVisible(true);
   }
 
   @Override
-  public void actionPerformed(ActionEvent e) {
-    String s = e.getActionCommand();
-
-    l.setText(t.getText());
-    System.out.println(t.getText());
-    t.setText("123");
+  public Dimension getPreferredSize() {
+    return new Dimension(500, 500);
 
   }
+
+
+  public void actionPerformed(ActionEvent e) {
+    String command = e.getActionCommand();
+
+    this.vector.add(this.input.getText());
+    this.input.setText("");
+    this.vectorTextArea.visualize(this.vector);
+
+
+    for (String elem : this.vector
+    ) {
+      System.out.println(elem);
+    }
+  }
+
 }
