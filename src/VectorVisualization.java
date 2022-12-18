@@ -8,30 +8,17 @@ import java.util.Vector;
 public class VectorVisualization extends JFrame {
     private Vector vector;
 
+    //testing
     public VectorVisualization() {
         super();
 
         JPanel gVectors = new JPanel();
         gVectors.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         gVectors.setBackground(Color.green);
-        gVectors.add(new VectorBox("1"));
-        gVectors.add(new VectorBox("2"));
-        gVectors.add(new VectorBox("1"));
-        gVectors.add(new VectorBox("2"));
-        gVectors.add(new VectorBox("1"));
-        gVectors.add(new VectorBox("2"));
-        gVectors.add(new VectorBox("1"));
-        gVectors.add(new VectorBox("2"));
-        gVectors.add(new VectorBox("1"));
-        gVectors.add(new VectorBox("2"));
-        gVectors.add(new VectorBox("1"));
-        gVectors.add(new VectorBox("2"));
-        gVectors.add(new VectorBox("1"));
-        gVectors.add(new VectorBox("2"));
 
 
         JPanel editPanel = new JPanel();
-        editPanel.setLayout(new GridLayout(0,1,0,50));
+        editPanel.setLayout(new BoxLayout(editPanel, BoxLayout.Y_AXIS));
         editPanel.add(new JButton("Додати елемент"));
         editPanel.add(new JButton("Додати1"));
         editPanel.add(new JButton("Додати2"));
@@ -50,7 +37,7 @@ public class VectorVisualization extends JFrame {
         c.ipady = 0;
 
         c.anchor = GridBagConstraints.FIRST_LINE_START;
-        c.insets = new Insets(60,25,0,100);
+        c.insets = new Insets(60, 25, 0, 100);
 
         c.weighty = 1.0;
 
