@@ -1,26 +1,34 @@
 package components;
+
 import java.awt.*;
 
 
 public class ProjectUtils {
-    private static final String[] projectFontNames = new String[] {"Ubuntu",
-                                                                   "Segoe UI",
-                                                                   "Tahoma",
-                                                                   "Geneva",
-                                                                   "Verdana"};
+    private static final String[] projectFontNames = new String[]{
+            "Ubuntu",
+            "Segoe UI",
+            "Tahoma",
+            "Geneva",
+            "Verdana"};
     public static final String fontName = getProjectFontName();
     private static String styleTag = """
-        <style>
-            h1, p {
-                font-family: %s;
-                padding: 2px;
-            }
-            .description {
-                padding: 10px 50px 10px 5px;
-                border-left: 2px solid black;
-            }
-        </style>
-        """.formatted(fontName);
+            <style>
+                h1, p {
+                    font-family: %s;
+                    padding: 2px;
+                }
+                .description {
+                    padding: 10px 50px 10px 5px;
+                    border-left: 2px solid black;
+                }
+                .vectorElement {
+                    border: 1px solid black;
+                    text-align: center;
+                    padding: 40px;
+                    background-color: rgba(255,0,0,0.7);
+                }
+            </style>
+            """.formatted(fontName);
 
     private static String getProjectFontName() {
         GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -40,6 +48,10 @@ public class ProjectUtils {
 
     public static String paragraph(String inner) {
         return html("<p>" + inner + "</p>");
+    }
+
+    public static String vectorElement(String inner) {
+        return html("<p class=\"vectorElement\">" + inner + "</p>");
     }
 
     public static void setConstraint(GridBagConstraints gbc, int x, int y,
