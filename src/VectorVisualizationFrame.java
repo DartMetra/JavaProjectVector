@@ -5,18 +5,18 @@ import java.util.Vector;
 
 
 public class VectorVisualizationFrame<Type> extends JFrame implements ActionListener {
-    private Vector<Type> vector;
+    private final Vector<Type> vector;
 
-    private JPanel vectorPanel = new JPanel(new GridBagLayout());
-    private GridPosition vectorElemPos = new GridPosition().setInsets(5);
+    private final JPanel vectorPanel = new JPanel(new GridBagLayout());
+    private final GridPosition vectorElemPos = new GridPosition().setInsets(5);
 
-    private final String addElemCmd = "addElem";
-    private String remElemCmd = "remElem";
-    private String InsertElemCmd = "insertElem";
-    private String setElemCmd = "remElem";
-    private String setSizeCmd = "addElem";
-    private String clearVectorCmd = "addElem";
-    private String trimToSizeCmd = "addElem";
+    private final String addElemCmd = "addElement";
+    private final String remElemCmd = "removeElement";
+    private final String insertElemCmd = "insertElement";
+    private final String setElemCmd = "setElement";
+    private final String setSizeCmd = "setSize";
+    private final String clearVectorCmd = "clearVector";
+    private final String trimToSizeCmd = "trimToSize";
 
 
     public VectorVisualizationFrame(int initialCapacity, int capacityIncrement) {
@@ -45,27 +45,27 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
 
         Btn removeBtn = new Btn(HtmlHelper.plain("Видалити елемент"), new ImageIcon("images/remove.png"));
         removeBtn.addActionListener(this);
-        removeBtn.setActionCommand("removeElem");
+        removeBtn.setActionCommand(remElemCmd);
 
         Btn insertBtn = new Btn(HtmlHelper.plain("Вставити елемент"), new ImageIcon("images/insert.png"));
         insertBtn.addActionListener(this);
-        insertBtn.setActionCommand("insertElem");
+        insertBtn.setActionCommand(insertElemCmd);
 
         Btn setBtn = new Btn(HtmlHelper.plain("Замінити елемент"), new ImageIcon("images/set.png"));
         setBtn.addActionListener(this);
-        setBtn.setActionCommand("setElem");
+        setBtn.setActionCommand(setElemCmd);
 
         Btn setSizeBtn = new Btn(HtmlHelper.plain("Встановити розмір вектора"), new ImageIcon("images/setSize.png"));
         setSizeBtn.addActionListener(this);
-        setSizeBtn.setActionCommand("setSize");
+        setSizeBtn.setActionCommand(setSizeCmd);
 
         Btn clearBtn = new Btn(HtmlHelper.plain("Очистити вектор"), new ImageIcon("images/clear.png"));
         clearBtn.addActionListener(this);
-        clearBtn.setActionCommand("clear");
+        clearBtn.setActionCommand(clearVectorCmd);
 
         Btn trimToSizeBtn = new Btn(HtmlHelper.plain("Обрізати до розміру"), new ImageIcon("images/trimToSize.png"));
         trimToSizeBtn.addActionListener(this);
-        trimToSizeBtn.setActionCommand("trimToSize");
+        trimToSizeBtn.setActionCommand(trimToSizeCmd);
 
 
         position.fill = GridPosition.BOTH;
@@ -143,29 +143,30 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
         switch (cmd) {
 
             case addElemCmd -> {
-                System.out.println("add");
+                JOptionPane smth = new JOptionPane();
+                smth.cre
+                /// add an element to a vector
             }
-            case "removeElem" -> {
-                System.out.println("rem");
-                /// remove an element from a vector
+            case remElemCmd -> {
+
             }
-            case "insertElem" -> {
+            case insertElemCmd -> {
                 System.out.println("insert");
                 /// inserts an element at some place into a vector
             }
-            case "setElem" -> {
+            case setElemCmd -> {
                 System.out.println("replace");
                 /// replacing an element in a vector
             }
-            case "setSize" -> {
+            case setSizeCmd -> {
                 System.out.println("set");
                 /// setting the size of a vector
             }
-            case "clear" -> {
+            case clearVectorCmd -> {
                 System.out.println("clear");
                 /// clears a vector
             }
-            case "trimToSize" -> {
+            case trimToSizeCmd -> {
                 System.out.println("trim");
                 /// trims to size a vector
             }
