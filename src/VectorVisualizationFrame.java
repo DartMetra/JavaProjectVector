@@ -28,38 +28,37 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
     }
 
     private void render() {
-        // add() Додати
-        // remove() Видалити
-        // insertElementAt() Вставити
-        // set() Замінити
-        // setSize() Встановити розмір
-        // clear() Очистити
-        // tripToSize() Обрізати
-        // removeRange() ? Видалити частину вектора????
 
         GridPosition position = new GridPosition().setPosition(0, 0).setInsets(15, 5, 15, 5);
         JPanel controlPanel = new JPanel(new GridBagLayout());
         Btn addBtn = new Btn(HtmlHelper.plain("Додати елемент"), new ImageIcon("images/add.png"));
         addBtn.addActionListener(this);
         addBtn.setActionCommand("addElem");
+
         Btn removeBtn = new Btn(HtmlHelper.plain("Видалити елемент"), new ImageIcon("images/remove.png"));
         removeBtn.addActionListener(this);
         removeBtn.setActionCommand("removeElem");
+
         Btn insertBtn = new Btn(HtmlHelper.plain("Вставити елемент"), new ImageIcon("images/insert.png"));
         insertBtn.addActionListener(this);
         insertBtn.setActionCommand("insertElem");
+
         Btn setBtn = new Btn(HtmlHelper.plain("Замінити елемент"), new ImageIcon("images/set.png"));
         setBtn.addActionListener(this);
         setBtn.setActionCommand("setElem");
+
         Btn setSizeBtn = new Btn(HtmlHelper.plain("Встановити розмір вектора"), new ImageIcon("images/setSize.png"));
         setSizeBtn.addActionListener(this);
         setSizeBtn.setActionCommand("setSize");
+
         Btn clearBtn = new Btn(HtmlHelper.plain("Очистити вектор"), new ImageIcon("images/clear.png"));
         clearBtn.addActionListener(this);
         clearBtn.setActionCommand("clear");
+
         Btn trimToSizeBtn = new Btn(HtmlHelper.plain("Обрізати до розміру"), new ImageIcon("images/trimToSize.png"));
         trimToSizeBtn.addActionListener(this);
         trimToSizeBtn.setActionCommand("trim");
+
         Btn removeRangeBtn = new Btn(HtmlHelper.plain("Видалити ряд елементів"), new ImageIcon("images/removeRange.png"));
         removeRangeBtn.addActionListener(this);
         removeRangeBtn.setActionCommand("removeRange");
@@ -98,6 +97,46 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
 
         for (int i = 0; i < vector.capacity() - vector.size(); i++)
             vectorPanel.add(new VectorElem("."));
+    }
+
+    private void renderAddElement(Type element) {
+        vector.add(element);
+        renderVector();
+    }
+
+    private void renderRemElement(int index) {
+        vector.remove(index);
+        renderVector();
+    }
+
+    private void renderInsertElement(Type obj, int index) {
+        vector.insertElementAt(obj, index);
+        renderVector();
+    }
+
+    private void renderSetElement(Type obj, int index) {
+        vector.set(index, obj);
+        renderVector();
+    }
+
+    private void renderSetSizeVector(int newSize) {
+        vector.setSize(newSize);
+        renderVector();
+    }
+
+    private void renderClearVector() {
+        vector.removeAllElements();
+        renderVector();
+    }
+
+    private void renderTrimToSizeVector() {
+        vector.trimToSize();
+        renderVector();
+    }
+
+    private void renderRemoveRangeVector() {
+        vector.();
+        renderVector();
     }
 
     public void actionPerformed(ActionEvent event) {
