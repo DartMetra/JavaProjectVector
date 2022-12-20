@@ -1,4 +1,0 @@
-#!/bin/zsh
-
-javac src/components/*.java -d bin
-javac src/*.java -d bin -cp bin

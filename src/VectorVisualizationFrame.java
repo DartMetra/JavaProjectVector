@@ -10,6 +10,14 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
     private JPanel vectorPanel = new JPanel(new GridBagLayout());
     private GridPosition vectorElemPos = new GridPosition().setInsets(5);
 
+    private final String addElemCmd = "addElem";
+    private String remElemCmd = "remElem";
+    private String InsertElemCmd = "insertElem";
+    private String setElemCmd = "remElem";
+    private String setSizeCmd = "addElem";
+    private String clearVectorCmd = "addElem";
+    private String trimToSizeCmd = "addElem";
+
 
     public VectorVisualizationFrame(int initialCapacity, int capacityIncrement) {
         super();
@@ -33,7 +41,7 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
         JPanel controlPanel = new JPanel(new GridBagLayout());
         Btn addBtn = new Btn(HtmlHelper.plain("Додати елемент"), new ImageIcon("images/add.png"));
         addBtn.addActionListener(this);
-        addBtn.setActionCommand("addElem");
+        addBtn.setActionCommand(addElemCmd);
 
         Btn removeBtn = new Btn(HtmlHelper.plain("Видалити елемент"), new ImageIcon("images/remove.png"));
         removeBtn.addActionListener(this);
@@ -57,11 +65,7 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
 
         Btn trimToSizeBtn = new Btn(HtmlHelper.plain("Обрізати до розміру"), new ImageIcon("images/trimToSize.png"));
         trimToSizeBtn.addActionListener(this);
-        trimToSizeBtn.setActionCommand("trim");
-
-        Btn removeRangeBtn = new Btn(HtmlHelper.plain("Видалити ряд елементів"), new ImageIcon("images/removeRange.png"));
-        removeRangeBtn.addActionListener(this);
-        removeRangeBtn.setActionCommand("removeRange");
+        trimToSizeBtn.setActionCommand("trimToSize");
 
 
         position.fill = GridPosition.BOTH;
@@ -73,7 +77,6 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
         controlPanel.add(setSizeBtn, position.nextRow());
         controlPanel.add(clearBtn, position.nextRow());
         controlPanel.add(trimToSizeBtn, position.nextRow());
-        controlPanel.add(removeRangeBtn, position.nextRow());
 
         vectorPanel.setBackground(Color.GRAY);
         this.renderVector();
@@ -134,17 +137,12 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
         renderVector();
     }
 
-    private void renderRemoveRangeVector() {
-        vector.();
-        renderVector();
-    }
-
     public void actionPerformed(ActionEvent event) {
         String cmd = event.getActionCommand();
 
         switch (cmd) {
 
-            case "addElem" -> {
+            case addElemCmd -> {
                 System.out.println("add");
             }
             case "removeElem" -> {
@@ -170,10 +168,6 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
             case "trimToSize" -> {
                 System.out.println("trim");
                 /// trims to size a vector
-            }
-            case "removeRange" -> {
-                System.out.println("removeRange");
-                /// removes a range of the elements of a vector
             }
         }
     }
