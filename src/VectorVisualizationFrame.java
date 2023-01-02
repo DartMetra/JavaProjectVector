@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.util.Vector;
 
 
-public class VectorVisualizationFrame<Type> extends JFrame implements ActionListener {
-    private final Vector<Type> vector;
+public class VectorVisualizationFrame extends JFrame implements ActionListener {
+    private final Vector vector;
 
     private final JPanel vectorPanel = new JPanel(new GridBagLayout());
     private final GridPosition vectorElemPos = new GridPosition().setInsets(5);
@@ -18,11 +18,16 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
     private final String clearVectorCmd = "clearVector";
     private final String trimToSizeCmd = "trimToSize";
 
-
-    public VectorVisualizationFrame(int initialCapacity, int capacityIncrement) {
+    public VectorVisualizationFrame(int initialCapacity, int capacityIncrement,
+                                    ElemType elemType) {
         super();
 
-        this.vector = new Vector<Type>(initialCapacity, capacityIncrement);
+        switch (elemType) {
+            case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
+            case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
+            case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
+            default -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
+        }
 
         this.setTitle(Settings.programName);
         this.setIconImage(new ImageIcon("images/icon.png").getImage());
@@ -95,46 +100,11 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
     }
 
     private void renderVector() {
-        for (Type elem : vector)
+        for (Object elem : vector)
             vectorPanel.add(new VectorElem(elem.toString()));
 
         for (int i = 0; i < vector.capacity() - vector.size(); i++)
             vectorPanel.add(new VectorElem("."));
-    }
-
-    private void renderAddElement(Type element) {
-        vector.add(element);
-        renderVector();
-    }
-
-    private void renderRemElement(int index) {
-        vector.remove(index);
-        renderVector();
-    }
-
-    private void renderInsertElement(Type obj, int index) {
-        vector.insertElementAt(obj, index);
-        renderVector();
-    }
-
-    private void renderSetElement(Type obj, int index) {
-        vector.set(index, obj);
-        renderVector();
-    }
-
-    private void renderSetSizeVector(int newSize) {
-        vector.setSize(newSize);
-        renderVector();
-    }
-
-    private void renderClearVector() {
-        vector.removeAllElements();
-        renderVector();
-    }
-
-    private void renderTrimToSizeVector() {
-        vector.trimToSize();
-        renderVector();
     }
 
     public void actionPerformed(ActionEvent event) {
@@ -144,12 +114,12 @@ public class VectorVisualizationFrame<Type> extends JFrame implements ActionList
 
             case addElemCmd -> {
                 JOptionPane smth = new JOptionPane();
-                smth.cre
                 /// add an element to a vector
             }
             case remElemCmd -> {
 
             }
+
             case insertElemCmd -> {
                 System.out.println("insert");
                 /// inserts an element at some place into a vector

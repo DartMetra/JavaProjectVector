@@ -98,10 +98,6 @@ public class InitFrame extends JFrame implements ActionListener {
         this.setVisible(false);
         this.dispose();
 
-        switch (type) {
-            case STRING -> new VectorVisualizationFrame<String>(initialCapacity, capacityIncrement);
-            case INT -> new VectorVisualizationFrame<Integer>(initialCapacity, capacityIncrement);
-            case DOUBLE -> new VectorVisualizationFrame<Double>(initialCapacity, capacityIncrement);
-        }
+        new VectorVisualizationFrame(initialCapacity, capacityIncrement, type);
     }
 }
