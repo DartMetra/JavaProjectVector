@@ -88,6 +88,11 @@ public class HtmlHelper {
         return htmlTag("<p class='bold'>" + inner + "</p>");
     }
 
+
+    public static String title(String inner) {
+        return htmlTag("<h1>" + inner + "</h1>");
+    }
+
     /**
      * Create a graphic vector interpretation.
      * Fills all created elements of a vector.
