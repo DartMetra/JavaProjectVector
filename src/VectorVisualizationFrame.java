@@ -7,10 +7,10 @@ import java.util.Vector;
 public class VectorVisualizationFrame extends JFrame implements ActionListener {
     private Vector<String> vector = new Vector<>();
     private final ElemType elemType;
-    
+
     private final JPanel vectorPanel = new JPanel(new GridBagLayout());
-    private JLabel sizeLable;
-    private JLabel capacityLabel;
+    private final JLabel sizeLabel = new JLabel();
+    private final JLabel capacityLabel = new JLabel();
 
     private final String addElemCmd = "addElement";
     private final String remElemCmd = "removeElement";
@@ -37,6 +37,8 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
     }
 
     private void render() {
+        JLabel typeLabel = new JLabel(HtmlHelper.title("Тип елементів: " + elemType.name));
+
         Btn addBtn = new Btn(
             HtmlHelper.plain("Додати елемент"),
             new ImageIcon("images/add.png")
@@ -102,16 +104,23 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         controlPanel.add(trimToSizeBtn, position.nextRow());
 
         vectorPanel.setBackground(new Color(255, 255, 255));
-        this.renderVector();
         JScrollPane scrollPane = new JScrollPane(vectorPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
+        this.renderVector();
 
         this.setLayout(new BorderLayout());
         this.add(controlPanel, BorderLayout.EAST);
         this.add(scrollPane, BorderLayout.NORTH);
+        this.add(typeLabel, BorderLayout.CENTER);
+        this.add(sizeLabel, BorderLayout.CENTER);
+        this.add(capacityLabel, BorderLayout.CENTER);
     }
 
     private void renderVector() {
+        sizeLabel.setText(HtmlHelper.title("Місткість: " + vector.size()));
+        capacityLabel.setText(HtmlHelper.title("Розмір: " + vector.capacity()));
+
         vectorPanel.removeAll();
         vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
 
@@ -124,7 +133,10 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         }
 
         vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
+
         vectorPanel.updateUI();
+        sizeLabel.updateUI();
+        capacityLabel.updateUI();
     }
 
 
