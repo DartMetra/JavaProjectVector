@@ -119,13 +119,13 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         vectorPanel.removeAll();
         vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
 
-        for (int i = 0; i < vector.capacity(); i++) {
-            try {
-                vectorPanel.add(new JLabel(HtmlHelper.vectorElem(vector.get(i).toString(), i)));
-            } catch (ArrayIndexOutOfBoundsException e) {
-                vectorPanel.add(new JLabel(HtmlHelper.vectorElem(i)));
-            }
-        }
+    for (int i = 0; i < vector.capacity(); i++) {
+      try {
+        vectorPanel.add(new VectorElem(vector.get(i).toString(), i));
+      } catch (Exception e) {
+        vectorPanel.add(new VectorElem(i));
+      }
+    }
 
         vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
         vectorPanel.updateUI();
