@@ -20,7 +20,8 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
     private final String clearVectorCmd = "clearVector";
     private final String trimToSizeCmd = "trimToSize";
 
-    public VectorVisualizationFrame(int initialCapacity, int capacityIncrement, ElemType elemType) {
+    public VectorVisualizationFrame(int initialCapacity, int capacityIncrement,
+                                    ElemType elemType) {
         super();
 
         this.elemType = elemType;
@@ -36,7 +37,6 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
     }
 
     private void render() {
-        JLabel typeLabel = new JLabel(HtmlHelper.title("Тип елементів: " + elemType.name));
 
         Btn addBtn = new Btn(
             HtmlHelper.plain("Додати елемент"),
@@ -45,27 +45,45 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         addBtn.setActionCommand(addElemCmd);
         addBtn.addActionListener(this);
 
-        Btn removeBtn = new Btn(HtmlHelper.plain("Видалити елемент"), new ImageIcon("images/remove.png"));
+        Btn removeBtn = new Btn(
+            HtmlHelper.plain("Видалити елемент"),
+            new ImageIcon("images/remove.png")
+        );
         removeBtn.setActionCommand(remElemCmd);
         removeBtn.addActionListener(this);
 
-        Btn insertBtn = new Btn(HtmlHelper.plain("Вставити елемент"), new ImageIcon("images/insert.png"));
+        Btn insertBtn = new Btn(
+            HtmlHelper.plain("Вставити елемент"),
+            new ImageIcon("images/insert.png")
+        );
         insertBtn.setActionCommand(insertElemCmd);
         insertBtn.addActionListener(this);
 
-        Btn setBtn = new Btn(HtmlHelper.plain("Замінити елемент"), new ImageIcon("images/set.png"));
+        Btn setBtn = new Btn(
+            HtmlHelper.plain("Замінити елемент"),
+            new ImageIcon("images/set.png")
+        );
         setBtn.setActionCommand(setElemCmd);
         setBtn.addActionListener(this);
 
-        Btn setSizeBtn = new Btn(HtmlHelper.plain("Встановити розмір вектора"), new ImageIcon("images/setSize.png"));
+        Btn setSizeBtn = new Btn(
+            HtmlHelper.plain("Встановити розмір вектора"),
+            new ImageIcon("images/setSize.png")
+        );
         setSizeBtn.setActionCommand(setSizeCmd);
         setSizeBtn.addActionListener(this);
 
-        Btn clearBtn = new Btn(HtmlHelper.plain("Очистити вектор"), new ImageIcon("images/clear.png"));
+        Btn clearBtn = new Btn(
+            HtmlHelper.plain("Очистити вектор"),
+            new ImageIcon("images/clear.png")
+        );
         clearBtn.setActionCommand(clearVectorCmd);
         clearBtn.addActionListener(this);
 
-        Btn trimToSizeBtn = new Btn(HtmlHelper.plain("Обрізати до розміру"), new ImageIcon("images/trimToSize.png"));
+        Btn trimToSizeBtn = new Btn(
+            HtmlHelper.plain("Обрізати до розміру"),
+            new ImageIcon("images/trimToSize.png")
+        );
         trimToSizeBtn.setActionCommand(trimToSizeCmd);
         trimToSizeBtn.addActionListener(this);
 
@@ -86,19 +104,23 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(vectorPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 
+        JLabel typeLabel = new JLabel(HtmlHelper.title("Тип елементів: " + elemType.name));
+        JPanel infoPanel = new JPanel(new GridBagLayout());
+        infoPanel.add(typeLabel, position.setPosition(0, 0));
+        infoPanel.add(sizeLabel, position.nextRow());
+        infoPanel.add(capacityLabel, position.nextRow());
+
         this.renderVector();
 
         this.setLayout(new BorderLayout());
         this.add(controlPanel, BorderLayout.EAST);
         this.add(scrollPane, BorderLayout.NORTH);
-        this.add(typeLabel, BorderLayout.CENTER);
-        this.add(sizeLabel, BorderLayout.CENTER);
-        this.add(capacityLabel, BorderLayout.CENTER);
+        this.add(infoPanel, BorderLayout.CENTER);
     }
 
     private void renderVector() {
-        sizeLabel.setText(HtmlHelper.title("Місткість: " + vector.size()));
-        capacityLabel.setText(HtmlHelper.title("Розмір: " + vector.capacity()));
+        sizeLabel.setText(HtmlHelper.title("Розмір: " + vector.size()));
+        capacityLabel.setText(HtmlHelper.title("Місткість: " + vector.capacity()));
 
         vectorPanel.removeAll();
         vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
@@ -121,29 +143,13 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent event) {
         switch (event.getActionCommand()) {
-            case addElemCmd -> {
-                this.handleAddElem();
-            }
-            case remElemCmd -> {
-                this.handleRemElem();
-            }
-            case insertElemCmd -> {
-                this.handleInsertElem();
-            }
-            case setElemCmd -> {
-                this.handleSetElem();
-            }
-            case setSizeCmd -> {
-                this.handleSetSize();
-
-            }
-            case clearVectorCmd -> {
-                this.handleClearVector();
-
-            }
-            case trimToSizeCmd -> {
-                this.handleTrimToSize();
-            }
+            case addElemCmd -> this.handleAddElem();
+            case remElemCmd -> this.handleRemElem();
+            case insertElemCmd -> this.handleInsertElem();
+            case setElemCmd -> this.handleSetElem();
+            case setSizeCmd -> this.handleSetSize();
+            case clearVectorCmd -> this.handleClearVector();
+            case trimToSizeCmd -> this.handleTrimToSize();
         }
     }
 
