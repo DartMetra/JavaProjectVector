@@ -117,6 +117,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
 
     private void renderVector() {
         vectorPanel.removeAll();
+        vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
 
         for (int i = 0; i < vector.capacity(); i++) {
             try {
@@ -126,6 +127,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
             }
         }
 
+        vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
         vectorPanel.updateUI();
     }
 

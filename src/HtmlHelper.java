@@ -32,13 +32,12 @@ public class HtmlHelper {
                 border-left: none;
                 background-color: #bcbcbc;
             }
-            .index {
-                padding: 5px;
-            }
+            .index { padding: 5px; }
             .empty-index {
                 padding: 5px;
                 color: #bcbcbc;
             }
+            .empty-block { padding: 25px; }
         </style>
         """.formatted(Settings.fontName);
 
@@ -77,6 +76,6 @@ public class HtmlHelper {
     }
 
     public static String emptyBlock() {
-        return "";
+        return htmlTag("<div class='empty-block'></div>");
     }
 }
