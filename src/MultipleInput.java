@@ -20,8 +20,8 @@ public class MultipleInput {
         myPanel.add(secondField);
 
         int result = JOptionPane.showConfirmDialog(null, myPanel,
-                title, JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION){
+            title, JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
 
             String[] inputValues = new String[2];
             inputValues[0] = firstField.getText();
