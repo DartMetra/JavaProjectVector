@@ -82,13 +82,8 @@ public class HtmlHelper {
     }
 
     /**
-     * Using to make bold text.
+     * Using to wrap into an <h1> tag.
      */
-    public static String bold(String inner) {
-        return htmlTag("<p class='bold'>" + inner + "</p>");
-    }
-
-
     public static String title(String inner) {
         return htmlTag("<h1>" + inner + "</h1>");
     }
