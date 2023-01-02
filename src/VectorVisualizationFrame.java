@@ -21,13 +21,13 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
                                     ElemType elemType) {
         super();
 
-        this.elemType = elemType;
-        switch (this.elemType) {
-            case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
-            case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
-            case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
-            default -> new RuntimeException("Unknown type");
-        }
+    this.elemType = elemType;
+    switch (this.elemType) {
+      case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
+      case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
+      case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
+      default -> new RuntimeException("Unknown type");
+    }
 
         this.setTitle(Settings.programName);
         this.setIconImage(new ImageIcon("images/icon.png").getImage());
