@@ -100,11 +100,17 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
     }
 
     private void renderVector() {
+        vectorPanel.removeAll();
+
         for (Object elem : vector)
             vectorPanel.add(new VectorElem(elem.toString()));
 
         for (int i = 0; i < vector.capacity() - vector.size(); i++)
             vectorPanel.add(new VectorElem("."));
+
+
+        vectorPanel.repaint();
+
     }
 
     public void actionPerformed(ActionEvent event) {
@@ -113,11 +119,23 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         switch (cmd) {
 
             case addElemCmd -> {
-                JOptionPane smth = new JOptionPane();
+
                 /// add an element to a vector
+                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
+                if (elem != null) {
+
+                    vector.add(elem);
+                    this.renderVector();
+                }
+
             }
             case remElemCmd -> {
-
+                //ask user for an index
+                //remove an element from a vector
+                String s = JOptionPane.showInputDialog("Enter vector index");
+                int index = Integer.parseInt(s);
+                vector.remove(index);
+                this.renderVector();
             }
 
             case insertElemCmd -> {
