@@ -95,15 +95,15 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
             .setInsets(15, 5, 15, 5);
         position.fill = GridPosition.BOTH;
 
-        JPanel centralPanel = new JPanel(new GridBagLayout());
-        centralPanel.setBackground(new Color(220, 220, 225));
-        centralPanel.add(addBtn, position);
-        centralPanel.add(removeBtn, position.nextRow());
-        centralPanel.add(insertBtn, position.nextRow());
-        centralPanel.add(setBtn, position.nextRow());
-        centralPanel.add(setSizeBtn, position.nextRow());
-        centralPanel.add(clearBtn, position.nextRow());
-        centralPanel.add(trimToSizeBtn, position.nextRow());
+        JPanel controlPanel = new JPanel(new GridBagLayout());
+        controlPanel.setBackground(new Color(220, 220, 225));
+        controlPanel.add(addBtn, position);
+        controlPanel.add(removeBtn, position.nextRow());
+        controlPanel.add(insertBtn, position.nextRow());
+        controlPanel.add(setBtn, position.nextRow());
+        controlPanel.add(setSizeBtn, position.nextRow());
+        controlPanel.add(clearBtn, position.nextRow());
+        controlPanel.add(trimToSizeBtn, position.nextRow());
 
         vectorPanel.setBackground(new Color(200, 200, 200));
         this.renderVector();
@@ -111,7 +111,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 
         this.setLayout(new BorderLayout());
-        this.add(centralPanel, BorderLayout.EAST);
+        this.add(controlPanel, BorderLayout.EAST);
         this.add(scrollPane, BorderLayout.NORTH);
     }
 
@@ -156,6 +156,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
             }
         }
     }
+
     private void handleAddElem(){
         String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
         if (elem != null ) {
