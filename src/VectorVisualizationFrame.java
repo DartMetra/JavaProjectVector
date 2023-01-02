@@ -5,9 +5,12 @@ import java.util.Vector;
 
 
 public class VectorVisualizationFrame extends JFrame implements ActionListener {
-    private Vector vector;
+    private Vector<String> vector = new Vector<>();
     private final ElemType elemType;
+    
     private final JPanel vectorPanel = new JPanel(new GridBagLayout());
+    private JLabel sizeLable;
+    private JLabel capacityLabel;
 
     private final String addElemCmd = "addElement";
     private final String remElemCmd = "removeElement";
@@ -22,13 +25,6 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         super();
 
         this.elemType = elemType;
-        switch (this.elemType) {
-            case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
-            case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
-            case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
-            default -> new RuntimeException("Unknown type");
-        }
-
         this.setTitle(Settings.programName);
         this.setIconImage(new ImageIcon("images/icon.png").getImage());
         this.setMinimumSize(new Dimension(800, 500));
@@ -122,7 +118,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         for (int i = 0; i < vector.capacity(); i++) {
             try {
                 vectorPanel.add(new JLabel(HtmlHelper.vectorElem(vector.get(i).toString(), i)));
-            } catch (Exception e) {
+            } catch (ArrayIndexOutOfBoundsException e) {
                 vectorPanel.add(new JLabel(HtmlHelper.vectorElem(i)));
             }
         }

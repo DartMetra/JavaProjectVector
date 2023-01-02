@@ -9,35 +9,54 @@ public class HtmlHelper {
                 padding: 10px 50px 10px 5px;
                 border-left: 2px solid black;
             }
-            .bold { font-weight: 500; }
-
+            .bold {
+                font-weight: 500;
+            }
             .element {
                 margin: 20px 0 30px 0;
                 text-align: center;
                 font-weight: 500;
             }
+            .first-content,
             .content {
                 height: 90px;
                 width: 75px;
                 padding: 10px;
-                border: 2px solid black;
-                border-left: none;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
             }
+            .content {
+                border: 2px solid black;
+                border-left: none;
+            }
+            .first-content {
+                border: 2px solid black;
+            }
+            .first-empty-content,
             .empty-content {
                 padding: 10px 25px;
+                background-color: #bcbcbc;
                 border: 2px solid #5d5d5d;
                 border-left: none;
-                background-color: #bcbcbc;
             }
-            .index { padding: 5px; }
-            .empty-index {
+            .empty-content {
+                border: 2px solid #5d5d5d;
+                border-left: none;
+            }
+            .first-empty-content {
+                border: 2px solid #5d5d5d;
+            }
+            .empty-index,
+            .index {
                 padding: 5px;
+            }
+            .empty-index {
                 color: #bcbcbc;
             }
-            .empty-block { padding: 10px; }
+            .empty-block {
+                padding: 10px;
+            }
         </style>
         """.formatted(Settings.fontName);
 
@@ -54,23 +73,43 @@ public class HtmlHelper {
     }
 
     public static String vectorElem(String content, int index) {
-        String result = """
-            <div class='element'>
-                <p class='content'>%s</p>
-                <p class ='index'>%s</p>
-            </div>
-            """.formatted(content, index);
+        String result;
+
+        if (index == 0)
+            result = """
+                <div class='element'>
+                    <p class='first-content'>%s</p>
+                    <p class ='index'>%s</p>
+                </div>
+                """.formatted(content, index);
+        else
+            result = """
+                <div class='element'>
+                    <p class='content'>%s</p>
+                    <p class ='index'>%s</p>
+                </div>
+                """.formatted(content, index);
 
         return htmlTag(result);
     }
 
     public static String vectorElem(int index) {
-        String result = """
-            <div class='element'>
-                <p class='empty-content'></p>
-                <p class ='empty-index'>%s</p>
-            </div>
-            """.formatted(index);
+        String result;
+
+        if (index == 0)
+            result = """
+                <div class='element'>
+                    <p class='first-empty-content'></p>
+                    <p class ='empty-index'>%s</p>
+                </div>
+                """.formatted(index);
+        else
+            result = """
+                <div class='element'>
+                    <p class='empty-content'></p>
+                    <p class ='empty-index'>%s</p>
+                </div>
+                """.formatted(index);
 
         return htmlTag(result);
     }
