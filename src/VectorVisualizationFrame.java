@@ -21,13 +21,13 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
                                     ElemType elemType) {
         super();
 
-    this.elemType = elemType;
-    switch (this.elemType) {
-      case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
-      case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
-      case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
-      default -> new RuntimeException("Unknown type");
-    }
+        this.elemType = elemType;
+        switch (this.elemType) {
+            case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
+            case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
+            case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
+            default -> new RuntimeException("Unknown type");
+        }
 
         this.setTitle(Settings.programName);
         this.setIconImage(new ImageIcon("images/icon.png").getImage());
@@ -105,7 +105,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         controlPanel.add(clearBtn, position.nextRow());
         controlPanel.add(trimToSizeBtn, position.nextRow());
 
-        vectorPanel.setBackground(new Color(255, 255, 255));
+        vectorPanel.setBackground(new Color(200, 200, 200));
         this.renderVector();
         JScrollPane scrollPane = new JScrollPane(vectorPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -117,17 +117,15 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
 
     private void renderVector() {
         vectorPanel.removeAll();
-        vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
 
         for (int i = 0; i < vector.capacity(); i++) {
             try {
-                vectorPanel.add(new JLabel(HtmlHelper.vectorElem(vector.get(i).toString(), i)));
+                vectorPanel.add(new VectorElem(vector.get(i).toString(), i));
             } catch (ArrayIndexOutOfBoundsException e) {
-                vectorPanel.add(new JLabel(HtmlHelper.vectorElem(i)));
+                vectorPanel.add(new VectorElem(i));
             }
         }
 
-        vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
         vectorPanel.updateUI();
     }
 
