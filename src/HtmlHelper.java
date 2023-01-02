@@ -11,26 +11,33 @@ public class HtmlHelper {
             }
             .bold { font-weight: 500; }
 
-            .vector-elem {
-                margin: 10px 0 30px 0;
-            }
-            .vector-elem .content,
-            .vector-elem .index {
-                padding: 5px;
+            .element {
+                margin: 20px 0 30px 0;
                 text-align: center;
                 font-weight: 500;
             }
-            .vector-elem .content {
+            .content {
+                height: 90px;
+                width: 75px;
                 padding: 10px;
-                width: 50px;
-                height: 50px;
                 border: 2px solid black;
-                border-right: none;
+                border-left: none;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
-            .vector-elem .empty {
-                border: 2px solid green;
-                border-right: none;
-                background-color: red;
+            .empty-content {
+                padding: 10px 25px;
+                border: 2px solid #5d5d5d;
+                border-left: none;
+                background-color: #bcbcbc;
+            }
+            .index {
+                padding: 5px;
+            }
+            .empty-index {
+                padding: 5px;
+                color: #bcbcbc;
             }
         </style>
         """.formatted(Settings.fontName);
@@ -49,23 +56,27 @@ public class HtmlHelper {
 
     public static String vectorElem(String content, int index) {
         String result = """
-            <div class='vector-elem'>
-                <p>%s</p>
-                <div>%s</div>
+            <div class='element'>
+                <p class='content'>%s</p>
+                <p class ='index'>%s</p>
             </div>
             """.formatted(content, index);
 
         return htmlTag(result);
     }
 
-    public static String emptyVectorElem(int index) {
+    public static String vectorElem(int index) {
         String result = """
-            <div class='vector-elem'>
-                <p class='empty'></p>
-                <div>%s</div>
+            <div class='element'>
+                <p class='empty-content'></p>
+                <p class ='empty-index'>%s</p>
             </div>
             """.formatted(index);
 
         return htmlTag(result);
+    }
+
+    public static String emptyBlock() {
+        return "";
     }
 }
