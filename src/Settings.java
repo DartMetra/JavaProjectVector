@@ -1,6 +1,8 @@
 import java.awt.*;
 
-
+/**
+ * Font settings.
+ */
 public class Settings {
     private static final String[] projectFontNames = new String[] {
         "Ubuntu",
@@ -12,6 +14,9 @@ public class Settings {
     public static final String fontName = getProjectFontName();
     public static final String programName = "Візуалізація вектора";
 
+    /**
+     * Using to set a project font of all available.
+     */
     private static String getProjectFontName() {
         GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String[] systemFontNames = g.getAvailableFontFamilyNames();

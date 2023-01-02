@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Initialising a starting frame.
+ * Returns a vector with inputted size, type and capacity.
+ */
 
 public class InitFrame extends JFrame implements ActionListener {
     private DropList<ElemType> typeInput = new DropList<ElemType>(ElemType.values());
@@ -22,6 +26,9 @@ public class InitFrame extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
+    /**
+     * Renders initFrame.
+     */
     private void render() {
         String welcomeBlock = """
             <div class='welcome-block'>
@@ -56,6 +63,9 @@ public class InitFrame extends JFrame implements ActionListener {
         this.add(initButton, position.nextRow());
     }
 
+    /**
+     * Events listener for initFrame buttons.
+     */
     public void actionPerformed(ActionEvent event) {
         ElemType type;
         int initialCapacity;

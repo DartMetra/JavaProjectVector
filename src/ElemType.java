@@ -1,3 +1,7 @@
+/**
+ * Java enum.
+ * It`s using to obtain a vector type.
+ */
 enum ElemType {
     STRING("Рядок"),
     INT("Ціле число"),

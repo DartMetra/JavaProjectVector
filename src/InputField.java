@@ -1,7 +1,9 @@
 import javax.swing.JTextField;
 import java.awt.*;
 
-
+/**
+ * A unified InputField class, which is extending a JTextField class from java.swing.
+ */
 public class InputField extends JTextField  {
     public InputField() {
         super();

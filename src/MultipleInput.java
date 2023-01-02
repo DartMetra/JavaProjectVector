@@ -1,5 +1,8 @@
 import javax.swing.*;
 
+/**
+ * Dialog window for multiple (2) inputs.
+ */
 public class MultipleInput {
 
     private String label1;  // первый input

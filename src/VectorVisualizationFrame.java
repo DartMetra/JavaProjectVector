@@ -3,7 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Vector;
 
-
+/**
+ * Main frame for vector manipulation.
+ */
 public class VectorVisualizationFrame extends JFrame implements ActionListener {
     private Vector<String> vector = new Vector<>();
     private final ElemType elemType;
@@ -35,6 +37,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
+    /**
+     * Renders VectorVisualisationFrame
+     */
     private void render() {
         Btn addBtn = new Btn(HtmlHelper.plain("Додати елемент"), new ImageIcon("images/add.png"));
         addBtn.setActionCommand(addElemCmd);
@@ -87,6 +92,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         this.add(scrollPane, BorderLayout.NORTH);
     }
 
+    /**
+     * Renders vector elements.
+     */
     private void renderVector() {
         vectorPanel.removeAll();
         vectorPanel.add(new JLabel(HtmlHelper.emptyBlock()));
@@ -103,7 +111,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         vectorPanel.updateUI();
     }
 
-
+    /**
+     * Events handler
+     */
     public void actionPerformed(ActionEvent event) {
         switch (event.getActionCommand()) {
             case addElemCmd -> {
@@ -132,6 +142,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Appends the specified element to the end of this Vector.
+     */
     private void handleAddElem() {
         String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
         if (elem != null && ValidateByType.validate(elem, this.elemType)) {
@@ -143,6 +156,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Removes the element at the specified position in this Vector.
+     */
     private void handleRemElem() {
         // ask user for index to remove vector element
         String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Видалити елемент", JOptionPane.QUESTION_MESSAGE);
@@ -157,6 +173,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Inserts the specified object as a component in this vector at the specified index.
+     */
     private void handleInsertElem() {
         // ask user for index to insert vector element
         String[] results = MultipleInput.render("Введіть індекс", "Введіть елемент", "Замінити елемент");
@@ -182,6 +201,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Replaces the element at the specified position in this Vector with the specified element.
+     */
     private void handleSetElem() {
         // ask user for index to set vector element
         String[] results = MultipleInput.render("Введіть індекс", "Введіть елемент", "Замінити елемент");
@@ -198,10 +220,11 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Sets the size of this vector.
+     */
     private void handleSetSize() {
-        // ask user for new vector size
         String size = JOptionPane.showInputDialog(this, "Введіть розмір", "Встановити розмір", JOptionPane.QUESTION_MESSAGE);
-        System.out.println(size);
         if (size != null) {
             try {
                 int newSize = Integer.parseInt(size);
@@ -215,6 +238,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Deletes all of the elements of this vector.
+     */
     private void handleClearVector() {
         // ask user for confirmation
         int result = JOptionPane.showConfirmDialog(this, "Ви впевнені?", "Очистити вектор", JOptionPane.YES_NO_OPTION);
@@ -224,6 +250,9 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Trims vector to a current size.
+     */
     private void handleTrimToSize() {
         //ask user for confirmation
         int result = JOptionPane.showConfirmDialog(this, "Ви впевнені?", "Відсікти непотрібні елементи", JOptionPane.YES_NO_OPTION);

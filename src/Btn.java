@@ -1,7 +1,10 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.Icon;
+import java.awt.Font;
 
-
+/**
+ * A unified Button class, which is extending a JButton class from java.swing.
+ */
 public class Btn extends JButton  {
     public Btn(String text) {
         super(text);

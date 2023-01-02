@@ -1,4 +1,11 @@
+/**
+ * To format all text of this project
+ * we decided to use html markup
+ */
 public class HtmlHelper {
+    /**
+     * Basic styles for our Buttons, Labels, etc.
+     */
     private static final String basicStyleTag = """
         <style>
             h1, p {
@@ -60,18 +67,31 @@ public class HtmlHelper {
         </style>
         """.formatted(Settings.fontName);
 
+    /**
+     * Using to wrap into an <html> tag.
+     */
     public static String htmlTag(String inner) {
         return "<html>" + basicStyleTag + inner + "</html>";
     }
 
+    /**
+     * Using to wrap into an <p> tag.
+     */
     public static String plain(String inner) {
         return htmlTag("<p>" + inner + "</p>");
     }
 
+    /**
+     * Using to make bold text.
+     */
     public static String bold(String inner) {
         return htmlTag("<p class='bold'>" + inner + "</p>");
     }
 
+    /**
+     * Create a graphic vector interpretation.
+     * Fills all created elements of a vector.
+     */
     public static String vectorElem(String content, int index) {
         String result;
 
@@ -93,6 +113,10 @@ public class HtmlHelper {
         return htmlTag(result);
     }
 
+    /**
+     * Create a graphic vector interpretation.
+     * Fills all capacity elements of a vector.
+     */
     public static String vectorElem(int index) {
         String result;
 
@@ -114,6 +138,9 @@ public class HtmlHelper {
         return htmlTag(result);
     }
 
+    /**
+     * Using to make left`n`right padding.
+     */
     public static String emptyBlock() {
         return htmlTag("<div class='empty-block'></div>");
     }

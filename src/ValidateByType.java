@@ -1,3 +1,6 @@
+/**
+ * Vector type validator.
+ */
 public class ValidateByType {
 
     static boolean validate(String value, ElemType type) {
