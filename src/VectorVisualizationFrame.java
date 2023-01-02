@@ -131,120 +131,149 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         vectorPanel.updateUI();
     }
 
-    public void actionPerformed(ActionEvent event) {
-        switch (event.getActionCommand()) {
-            case addElemCmd -> {
-                this.handleAddElem();
-            }
-            case remElemCmd -> {
-                this.handleRemElem();
-            }
-            case insertElemCmd -> {
-                this.handleInsertElem();
-            }
-            case setElemCmd -> {
-                this.handleSetElem();
-            }
-            case setSizeCmd -> {
-                this.handleSetSize();
 
-            }
-            case clearVectorCmd -> {
-               this.handleClearVector();
 
-            }
-            case trimToSizeCmd -> {
-              this.handleTrimToSize();
-            }
-        }
-    }
+  public void actionPerformed(ActionEvent event) {
+    switch (event.getActionCommand()) {
+      case addElemCmd -> {
+        this.handleAddElem();
+      }
+      case remElemCmd -> {
+        this.handleRemElem();
+      }
+      case insertElemCmd -> {
+        this.handleInsertElem();
+      }
+      case setElemCmd -> {
+        this.handleSetElem();
+      }
+      case setSizeCmd -> {
+        this.handleSetSize();
 
-    private void handleAddElem(){
-        String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
-        if (elem != null ) {
-            System.out.println(elem);
-            vector.add(elem);
-            this.renderVector();
-        }
-    }
+      }
+      case clearVectorCmd -> {
+        this.handleClearVector();
 
-    private void handleRemElem(){
-        // ask user for index to remove vector element
-        String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Видалити елемент", JOptionPane.QUESTION_MESSAGE);
-        if (index != null) {
-            try {
-                int idx = Integer.parseInt(index);
-                vector.remove(idx);
-                this.renderVector();
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+      }
+      case trimToSizeCmd -> {
+        this.handleTrimToSize();
+      }
     }
-    private void  handleInsertElem(){
-        // ask user for index to insert vector element
-        String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Вставити елемент", JOptionPane.QUESTION_MESSAGE);
-        if (index != null) {
-            try {
-                int idx = Integer.parseInt(index);
-                // ask user for element to insert
-                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Вставити елемент", JOptionPane.QUESTION_MESSAGE);
-                if (elem != null) {
-                    vector.insertElementAt(elem, idx);
-                    this.renderVector();
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-    private void  handleSetElem(){
-        // ask user for index to set vector element
-        String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Замінити елемент", JOptionPane.QUESTION_MESSAGE);
-        if (index != null) {
-            try {
-                int idx = Integer.parseInt(index);
-                // ask user for element to set
-                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Замінити елемент", JOptionPane.QUESTION_MESSAGE);
-                if (elem != null) {
-                    vector.set(idx, elem);
-                    this.renderVector();
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
-            }
+  }
 
-        }
+  private void handleAddElem() {
+    String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
+    if (elem != null && ValidateByType.validate(elem, this.elemType)) {
+      System.out.println(elem);
+      vector.add(elem);
+      this.renderVector();
     }
-    private  void handleSetSize(){
-        // ask user for new vector size
-        String size = JOptionPane.showInputDialog(this, "Введіть розмір", "Встановити розмір", JOptionPane.QUESTION_MESSAGE);
-        if (size != null) {
-            try {
-                int newSize = Integer.parseInt(size);
-                vector.setSize(newSize);
-                this.renderVector();
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Невірний розмір", "Помилка", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+    else {
+      JOptionPane.showMessageDialog(this, "Невірний тип елементу", "Помилка", JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  private void handleRemElem() {
+    // ask user for index to remove vector element
+    String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Видалити елемент", JOptionPane.QUESTION_MESSAGE);
+    if (index != null) {
+      try {
+        int idx = Integer.parseInt(index);
+        vector.remove(idx);
+        this.renderVector();
+      } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
+      }
+    }
+  }
+
+  private void handleInsertElem() {
+    // ask user for index to insert vector element
+    String[] results = MultipleInput.render("Введіть індекс", "Введіть елемент", "Замінити елемент");
+    // insert element to vector and validate using ValidateByType class
+
+    if (results == null) {
+      throw new NullPointerException("results is null");
+    }
+    if (results[0] == null || !ValidateByType.validate(results[0], ElemType.INT)) {
+      System.out.println(results[0]);
+      System.out.println(this.elemType);
+      JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
+      return;
     }
 
-    private void handleClearVector(){
-        // ask user for confirmation
-        int result = JOptionPane.showConfirmDialog(this, "Ви впевнені?", "Очистити вектор", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
-            vector.clear();
-            this.renderVector();
-        }
+    if (results[1] == null || !ValidateByType.validate(results[1], this.elemType)) {
+      JOptionPane.showMessageDialog(this, "Невірний елемент", "Помилка", JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+    System.out.println("inserting");
+
+    switch (this.elemType) {
+      case INT -> {
+        vector.insertElementAt( Integer.parseInt(results[1]),Integer.parseInt(results[0]));
+      }
+      case DOUBLE -> {
+        vector.insertElementAt(Double.parseDouble(results[1]), Integer.parseInt(results[0]));
+      }
+      case STRING -> {
+        vector.insertElementAt(results[1], Integer.parseInt(results[0]));
+      }
     }
 
-    private  void handleTrimToSize(){
-        //ask user for confirmation
-        int result = JOptionPane.showConfirmDialog(this, "Ви впевнені?", "Відсікти непотрібні елементи", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
-            vector.trimToSize();
-            this.renderVector();
+    this.renderVector();
+
+  }
+
+  private void handleSetElem() {
+    // ask user for index to set vector element
+    String[] results = MultipleInput.render("Введіть індекс", "Введіть елемент", "Замінити елемент");
+    try {
+      if (results != null) {
+        for (String result : results) {
+          if (result.isEmpty())
+            break;
         }
+        vector.set(Integer.parseInt(results[0]), results[1]);
+      }
+      this.renderVector();
+    } catch (NumberFormatException e) {
+      JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
     }
+  }
+
+  private void handleSetSize() {
+    // ask user for new vector size
+    String size = JOptionPane.showInputDialog(this, "Введіть розмір", "Встановити розмір", JOptionPane.QUESTION_MESSAGE);
+    System.out.println(size);
+    if (size != null ) {
+      try {
+        int newSize = Integer.parseInt(size);
+        System.out.println(size);
+        System.out.println( "parsed");
+        vector.setSize(newSize);
+        System.out.println("set");
+        this.renderVector();
+      } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Невірний розмір", "Помилка", JOptionPane.ERROR_MESSAGE);
+      }
+    }
+  }
+
+  private void handleClearVector() {
+    // ask user for confirmation
+    int result = JOptionPane.showConfirmDialog(this, "Ви впевнені?", "Очистити вектор", JOptionPane.YES_NO_OPTION);
+    if (result == JOptionPane.YES_OPTION) {
+      vector.clear();
+      this.renderVector();
+    }
+  }
+
+  private void handleTrimToSize() {
+    //ask user for confirmation
+    int result = JOptionPane.showConfirmDialog(this, "Ви впевнені?", "Відсікти непотрібні елементи", JOptionPane.YES_NO_OPTION);
+    if (result == JOptionPane.YES_OPTION) {
+      vector.trimToSize();
+      this.renderVector();
+    }
+  }
 }
