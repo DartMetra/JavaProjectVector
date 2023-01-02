@@ -37,7 +37,7 @@ public class HtmlHelper {
                 padding: 5px;
                 color: #bcbcbc;
             }
-            .empty-block { padding: 25px; }
+            .empty-block { padding: 10px; }
         </style>
         """.formatted(Settings.fontName);
 
