@@ -6,6 +6,7 @@ import java.util.Vector;
 
 public class VectorVisualizationFrame extends JFrame implements ActionListener {
     private Vector vector;
+    private final ElemType elemType;
     private final JPanel vectorPanel = new JPanel(new GridBagLayout());
 
     private final String addElemCmd = "addElement";
@@ -20,7 +21,8 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
                                     ElemType elemType) {
         super();
 
-        switch (elemType) {
+        this.elemType = elemType;
+        switch (this.elemType) {
             case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
             case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
             case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
@@ -103,7 +105,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         centralPanel.add(clearBtn, position.nextRow());
         centralPanel.add(trimToSizeBtn, position.nextRow());
 
-        vectorPanel.setBackground(Color.GRAY);
+        vectorPanel.setBackground(new Color(200, 200, 200));
         this.renderVector();
         JScrollPane scrollPane = new JScrollPane(vectorPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -114,18 +116,22 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
     }
 
     private void renderVector() {
-        for (Object elem : vector)
-            vectorPanel.add(new VectorElem(elem.toString()));
+        vectorPanel.removeAll();
 
-        for (int i = 0; i < vector.capacity() - vector.size(); i++)
-            vectorPanel.add(new VectorElem("."));
+        for (int i = 0; i < vector.capacity(); i++) {
+            try {
+                vectorPanel.add(new VectorElem(vector.get(i).toString(), i));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                vectorPanel.add(new VectorElem(i));
+            }
+        }
+
+        vectorPanel.updateUI();
     }
 
     public void actionPerformed(ActionEvent event) {
         switch (event.getActionCommand()) {
             case addElemCmd -> {
-                JOptionPane smth = new JOptionPane();
-                /// add an element to a vector
             }
             case remElemCmd -> {
             }
