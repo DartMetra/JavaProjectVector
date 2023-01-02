@@ -6,6 +6,7 @@ import java.util.Vector;
 
 public class VectorVisualizationFrame extends JFrame implements ActionListener {
     private Vector vector;
+    private final ElemType elemType;
     private final JPanel vectorPanel = new JPanel(new GridBagLayout());
 
     private final String addElemCmd = "addElement";
@@ -20,7 +21,8 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
                                     ElemType elemType) {
         super();
 
-        switch (elemType) {
+        this.elemType = elemType;
+        switch (this.elemType) {
             case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
             case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
             case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
@@ -40,170 +42,207 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
 
     private void render() {
         Btn addBtn = new Btn(
-                HtmlHelper.plain("Додати елемент"),
-                new ImageIcon("images/add.png")
+            HtmlHelper.plain("Додати елемент"),
+            new ImageIcon("images/add.png")
         );
         addBtn.setActionCommand(addElemCmd);
         addBtn.addActionListener(this);
 
         Btn removeBtn = new Btn(
-                HtmlHelper.plain("Видалити елемент"),
-                new ImageIcon("images/remove.png")
+            HtmlHelper.plain("Видалити елемент"),
+            new ImageIcon("images/remove.png")
         );
         removeBtn.setActionCommand(remElemCmd);
         removeBtn.addActionListener(this);
 
         Btn insertBtn = new Btn(
-                HtmlHelper.plain("Вставити елемент"),
-                new ImageIcon("images/insert.png")
+            HtmlHelper.plain("Вставити елемент"),
+            new ImageIcon("images/insert.png")
         );
         insertBtn.setActionCommand(insertElemCmd);
         insertBtn.addActionListener(this);
 
         Btn setBtn = new Btn(
-                HtmlHelper.plain("Замінити елемент"),
-                new ImageIcon("images/set.png")
+            HtmlHelper.plain("Замінити елемент"),
+            new ImageIcon("images/set.png")
         );
         setBtn.setActionCommand(setElemCmd);
         setBtn.addActionListener(this);
 
         Btn setSizeBtn = new Btn(
-                HtmlHelper.plain("Встановити розмір вектора"),
-                new ImageIcon("images/setSize.png")
+            HtmlHelper.plain("Встановити розмір вектора"),
+            new ImageIcon("images/setSize.png")
         );
         setSizeBtn.setActionCommand(setSizeCmd);
         setSizeBtn.addActionListener(this);
 
         Btn clearBtn = new Btn(
-                HtmlHelper.plain("Очистити вектор"),
-                new ImageIcon("images/clear.png")
+            HtmlHelper.plain("Очистити вектор"),
+            new ImageIcon("images/clear.png")
         );
         clearBtn.setActionCommand(clearVectorCmd);
         clearBtn.addActionListener(this);
 
         Btn trimToSizeBtn = new Btn(
-                HtmlHelper.plain("Обрізати до розміру"),
-                new ImageIcon("images/trimToSize.png")
+            HtmlHelper.plain("Обрізати до розміру"),
+            new ImageIcon("images/trimToSize.png")
         );
         trimToSizeBtn.setActionCommand(trimToSizeCmd);
         trimToSizeBtn.addActionListener(this);
 
         GridPosition position = new GridPosition()
-                .setPosition(0, 0)
-                .setInsets(15, 5, 15, 5);
+            .setPosition(0, 0)
+            .setInsets(15, 5, 15, 5);
         position.fill = GridPosition.BOTH;
 
-        JPanel centralPanel = new JPanel(new GridBagLayout());
-        centralPanel.setBackground(new Color(220, 220, 225));
-        centralPanel.add(addBtn, position);
-        centralPanel.add(removeBtn, position.nextRow());
-        centralPanel.add(insertBtn, position.nextRow());
-        centralPanel.add(setBtn, position.nextRow());
-        centralPanel.add(setSizeBtn, position.nextRow());
-        centralPanel.add(clearBtn, position.nextRow());
-        centralPanel.add(trimToSizeBtn, position.nextRow());
+        JPanel controlPanel = new JPanel(new GridBagLayout());
+        controlPanel.setBackground(new Color(220, 220, 225));
+        controlPanel.add(addBtn, position);
+        controlPanel.add(removeBtn, position.nextRow());
+        controlPanel.add(insertBtn, position.nextRow());
+        controlPanel.add(setBtn, position.nextRow());
+        controlPanel.add(setSizeBtn, position.nextRow());
+        controlPanel.add(clearBtn, position.nextRow());
+        controlPanel.add(trimToSizeBtn, position.nextRow());
 
-        vectorPanel.setBackground(Color.GRAY);
+        vectorPanel.setBackground(new Color(200, 200, 200));
         this.renderVector();
         JScrollPane scrollPane = new JScrollPane(vectorPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 
         this.setLayout(new BorderLayout());
-        this.add(centralPanel, BorderLayout.EAST);
+        this.add(controlPanel, BorderLayout.EAST);
         this.add(scrollPane, BorderLayout.NORTH);
     }
 
     private void renderVector() {
         vectorPanel.removeAll();
-        for (Object elem : vector)
-            vectorPanel.add(new VectorElem(elem.toString()));
 
-        for (int i = 0; i < vector.capacity() - vector.size(); i++)
-            vectorPanel.add(new VectorElem("."));
+        for (int i = 0; i < vector.capacity(); i++) {
+            try {
+                vectorPanel.add(new VectorElem(vector.get(i).toString(), i));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                vectorPanel.add(new VectorElem(i));
+            }
+        }
 
-        SwingUtilities.updateComponentTreeUI(vectorPanel);
+        vectorPanel.updateUI();
     }
-
 
     public void actionPerformed(ActionEvent event) {
         switch (event.getActionCommand()) {
             case addElemCmd -> {
-                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
-                if (elem != null) {
-                    System.out.println(elem);
-                    vector.add(elem);
-                    this.renderVector();
-                }
+                this.handleAddElem();
             }
             case remElemCmd -> {
-                // ask user for index to remove vector element
-                String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Видалити елемент", JOptionPane.QUESTION_MESSAGE);
-                if (index != null) {
-                    try {
-                        int idx = Integer.parseInt(index);
-                        vector.remove(idx);
-                        this.renderVector();
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+                this.handleRemElem();
             }
             case insertElemCmd -> {
-                // ask user for index to insert vector element
-                String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Вставити елемент", JOptionPane.QUESTION_MESSAGE);
-                if (index != null) {
-                    try {
-                        int idx = Integer.parseInt(index);
-                        // ask user for element to insert
-                        String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Вставити елемент", JOptionPane.QUESTION_MESSAGE);
-                        if (elem != null) {
-                            vector.insertElementAt(elem, idx);
-                            this.renderVector();
-                        }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+                this.handleInsertElem();
             }
             case setElemCmd -> {
-                String[] results = MultipleInput.render("Введіть індекс", "Введіть елемент", "Замінити елемент");
-                try {
-                    if (results != null) {
-                        for (String result : results) {
-                            if (result.isEmpty())
-                                break;
-                        }
-                        vector.set(Integer.parseInt(results[0]), results[1]);
-                    }
-                    this.renderVector();
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
-                }
+                this.handleSetElem();
             }
-//                String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Замінити елемент", JOptionPane.QUESTION_MESSAGE);
-//                if (index != null) {
-//                    try {
-//                        int idx = Integer.parseInt(index);
-//                        // ask user for element to set
-//                        String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Замінити елемент", JOptionPane.QUESTION_MESSAGE);
-//                        if (elem != null) {
-//                            vector.set(idx, elem);
-//                            this.renderVector();
-//                        }
-//                    } catch (NumberFormatException e) {
-//                        JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
-//                    }
-//                }
-
             case setSizeCmd -> {
-                ///
+                this.handleSetSize();
+
             }
             case clearVectorCmd -> {
-                ///
+               this.handleClearVector();
+
             }
             case trimToSizeCmd -> {
-                ///
+              this.handleTrimToSize();
             }
+        }
+    }
+
+    private void handleAddElem(){
+        String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
+        if (elem != null ) {
+            System.out.println(elem);
+            vector.add(elem);
+            this.renderVector();
+        }
+    }
+
+    private void handleRemElem(){
+        // ask user for index to remove vector element
+        String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Видалити елемент", JOptionPane.QUESTION_MESSAGE);
+        if (index != null) {
+            try {
+                int idx = Integer.parseInt(index);
+                vector.remove(idx);
+                this.renderVector();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    private void  handleInsertElem(){
+        // ask user for index to insert vector element
+        String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Вставити елемент", JOptionPane.QUESTION_MESSAGE);
+        if (index != null) {
+            try {
+                int idx = Integer.parseInt(index);
+                // ask user for element to insert
+                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Вставити елемент", JOptionPane.QUESTION_MESSAGE);
+                if (elem != null) {
+                    vector.insertElementAt(elem, idx);
+                    this.renderVector();
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    private void  handleSetElem(){
+        // ask user for index to set vector element
+        String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Замінити елемент", JOptionPane.QUESTION_MESSAGE);
+        if (index != null) {
+            try {
+                int idx = Integer.parseInt(index);
+                // ask user for element to set
+                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Замінити елемент", JOptionPane.QUESTION_MESSAGE);
+                if (elem != null) {
+                    vector.set(idx, elem);
+                    this.renderVector();
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+    }
+    private  void handleSetSize(){
+        // ask user for new vector size
+        String size = JOptionPane.showInputDialog(this, "Введіть розмір", "Встановити розмір", JOptionPane.QUESTION_MESSAGE);
+        if (size != null) {
+            try {
+                int newSize = Integer.parseInt(size);
+                vector.setSize(newSize);
+                this.renderVector();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Невірний розмір", "Помилка", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void handleClearVector(){
+        // ask user for confirmation
+        int result = JOptionPane.showConfirmDialog(this, "Ви впевнені?", "Очистити вектор", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            vector.clear();
+            this.renderVector();
+        }
+    }
+
+    private  void handleTrimToSize(){
+        //ask user for confirmation
+        int result = JOptionPane.showConfirmDialog(this, "Ви впевнені?", "Відсікти непотрібні елементи", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            vector.trimToSize();
+            this.renderVector();
         }
     }
 }
