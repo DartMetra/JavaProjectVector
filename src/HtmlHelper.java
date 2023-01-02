@@ -11,26 +11,30 @@ public class HtmlHelper {
             }
             .bold { font-weight: 500; }
 
+            .empty-elem,
             .vector-elem {
                 margin: 10px 0 30px 0;
             }
             .vector-elem .content,
             .vector-elem .index {
-                padding: 5px;
                 text-align: center;
                 font-weight: 500;
             }
             .vector-elem .content {
                 padding: 10px;
-                width: 50px;
-                height: 50px;
                 border: 2px solid black;
                 border-right: none;
             }
-            .vector-elem .empty {
-                border: 2px solid green;
+            .vector-elem .index {
+                padding: 5px;
+            }
+            .empty-elem {
+                border: 2px solid #5d5d5d;
                 border-right: none;
-                background-color: red;
+                background-color: #bcbcbc;
+
+                
+                padding: 10px 15px;
             }
         </style>
         """.formatted(Settings.fontName);
@@ -50,8 +54,8 @@ public class HtmlHelper {
     public static String vectorElem(String content, int index) {
         String result = """
             <div class='vector-elem'>
-                <p>%s</p>
-                <div>%s</div>
+                <p class='content'>%s</p>
+                <p class ='index'>%s</p>
             </div>
             """.formatted(content, index);
 
@@ -59,13 +63,6 @@ public class HtmlHelper {
     }
 
     public static String emptyVectorElem(int index) {
-        String result = """
-            <div class='vector-elem'>
-                <p class='empty'></p>
-                <div>%s</div>
-            </div>
-            """.formatted(index);
-
-        return htmlTag(result);
+        return htmlTag("<div class='empty-elem'></div>");
     }
 }

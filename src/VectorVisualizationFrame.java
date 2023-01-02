@@ -105,7 +105,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
         controlPanel.add(clearBtn, position.nextRow());
         controlPanel.add(trimToSizeBtn, position.nextRow());
 
-        vectorPanel.setBackground(new Color(200, 200, 200));
+        vectorPanel.setBackground(new Color(255, 255, 255));
         this.renderVector();
         JScrollPane scrollPane = new JScrollPane(vectorPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
