@@ -181,37 +181,34 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
     }
     private void  handleInsertElem(){
         // ask user for index to insert vector element
-        String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Вставити елемент", JOptionPane.QUESTION_MESSAGE);
-        if (index != null) {
-            try {
-                int idx = Integer.parseInt(index);
-                // ask user for element to insert
-                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Вставити елемент", JOptionPane.QUESTION_MESSAGE);
-                if (elem != null) {
-                    vector.insertElementAt(elem, idx);
-                    this.renderVector();
+        String[] results = MultipleInput.render("Введіть індекс", "Введіть елемент", "Замінити елемент");
+        try {
+            if (results != null) {
+                for (String result : results) {
+                    if (result.isEmpty())
+                        break;
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
+                vector.insertElementAt(results[1], Integer.parseInt(results[0]));
             }
+            this.renderVector();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
         }
     }
     private void  handleSetElem(){
         // ask user for index to set vector element
-        String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Замінити елемент", JOptionPane.QUESTION_MESSAGE);
-        if (index != null) {
-            try {
-                int idx = Integer.parseInt(index);
-                // ask user for element to set
-                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Замінити елемент", JOptionPane.QUESTION_MESSAGE);
-                if (elem != null) {
-                    vector.set(idx, elem);
-                    this.renderVector();
+        String[] results = MultipleInput.render("Введіть індекс", "Введіть елемент", "Замінити елемент");
+        try {
+            if (results != null) {
+                for (String result : results) {
+                    if (result.isEmpty())
+                        break;
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
+                vector.set(Integer.parseInt(results[0]), results[1]);
             }
-
+            this.renderVector();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
         }
     }
     private  void handleSetSize(){
