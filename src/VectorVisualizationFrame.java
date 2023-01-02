@@ -5,10 +5,8 @@ import java.util.Vector;
 
 
 public class VectorVisualizationFrame extends JFrame implements ActionListener {
-    private final Vector vector;
-
+    private Vector vector;
     private final JPanel vectorPanel = new JPanel(new GridBagLayout());
-    private final GridPosition vectorElemPos = new GridPosition().setInsets(5);
 
     private final String addElemCmd = "addElement";
     private final String remElemCmd = "removeElement";
@@ -26,7 +24,7 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
             case STRING -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
             case INT -> this.vector = new Vector<Integer>(initialCapacity, capacityIncrement);
             case DOUBLE -> this.vector = new Vector<Double>(initialCapacity, capacityIncrement);
-            default -> this.vector = new Vector<String>(initialCapacity, capacityIncrement);
+            default -> new RuntimeException("Unknown type");
         }
 
         this.setTitle(Settings.programName);
@@ -41,122 +39,105 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
     }
 
     private void render() {
-
-        GridPosition position = new GridPosition().setPosition(0, 0).setInsets(15, 5, 15, 5);
-        JPanel controlPanel = new JPanel(new GridBagLayout());
-        Btn addBtn = new Btn(HtmlHelper.plain("Додати елемент"), new ImageIcon("images/add.png"));
-        addBtn.addActionListener(this);
+        Btn addBtn = new Btn(
+            HtmlHelper.plain("Додати елемент"),
+            new ImageIcon("images/add.png")
+        );
         addBtn.setActionCommand(addElemCmd);
+        addBtn.addActionListener(this);
 
-        Btn removeBtn = new Btn(HtmlHelper.plain("Видалити елемент"), new ImageIcon("images/remove.png"));
-        removeBtn.addActionListener(this);
+        Btn removeBtn = new Btn(
+            HtmlHelper.plain("Видалити елемент"),
+            new ImageIcon("images/remove.png")
+        );
         removeBtn.setActionCommand(remElemCmd);
+        removeBtn.addActionListener(this);
 
-        Btn insertBtn = new Btn(HtmlHelper.plain("Вставити елемент"), new ImageIcon("images/insert.png"));
-        insertBtn.addActionListener(this);
+        Btn insertBtn = new Btn(
+            HtmlHelper.plain("Вставити елемент"),
+            new ImageIcon("images/insert.png")
+        );
         insertBtn.setActionCommand(insertElemCmd);
+        insertBtn.addActionListener(this);
 
-        Btn setBtn = new Btn(HtmlHelper.plain("Замінити елемент"), new ImageIcon("images/set.png"));
-        setBtn.addActionListener(this);
+        Btn setBtn = new Btn(
+            HtmlHelper.plain("Замінити елемент"),
+            new ImageIcon("images/set.png")
+        );
         setBtn.setActionCommand(setElemCmd);
+        setBtn.addActionListener(this);
 
-        Btn setSizeBtn = new Btn(HtmlHelper.plain("Встановити розмір вектора"), new ImageIcon("images/setSize.png"));
-        setSizeBtn.addActionListener(this);
+        Btn setSizeBtn = new Btn(
+            HtmlHelper.plain("Встановити розмір вектора"),
+            new ImageIcon("images/setSize.png")
+        );
         setSizeBtn.setActionCommand(setSizeCmd);
+        setSizeBtn.addActionListener(this);
 
-        Btn clearBtn = new Btn(HtmlHelper.plain("Очистити вектор"), new ImageIcon("images/clear.png"));
-        clearBtn.addActionListener(this);
+        Btn clearBtn = new Btn(
+            HtmlHelper.plain("Очистити вектор"),
+            new ImageIcon("images/clear.png")
+        );
         clearBtn.setActionCommand(clearVectorCmd);
+        clearBtn.addActionListener(this);
 
-        Btn trimToSizeBtn = new Btn(HtmlHelper.plain("Обрізати до розміру"), new ImageIcon("images/trimToSize.png"));
-        trimToSizeBtn.addActionListener(this);
+        Btn trimToSizeBtn = new Btn(
+            HtmlHelper.plain("Обрізати до розміру"),
+            new ImageIcon("images/trimToSize.png")
+        );
         trimToSizeBtn.setActionCommand(trimToSizeCmd);
+        trimToSizeBtn.addActionListener(this);
 
-
+        GridPosition position = new GridPosition()
+            .setPosition(0, 0)
+            .setInsets(15, 5, 15, 5);
         position.fill = GridPosition.BOTH;
-        controlPanel.setBackground(new Color(220, 220, 225));
-        controlPanel.add(addBtn, position);
-        controlPanel.add(removeBtn, position.nextRow());
-        controlPanel.add(insertBtn, position.nextRow());
-        controlPanel.add(setBtn, position.nextRow());
-        controlPanel.add(setSizeBtn, position.nextRow());
-        controlPanel.add(clearBtn, position.nextRow());
-        controlPanel.add(trimToSizeBtn, position.nextRow());
+
+        JPanel centralPanel = new JPanel(new GridBagLayout());
+        centralPanel.setBackground(new Color(220, 220, 225));
+        centralPanel.add(addBtn, position);
+        centralPanel.add(removeBtn, position.nextRow());
+        centralPanel.add(insertBtn, position.nextRow());
+        centralPanel.add(setBtn, position.nextRow());
+        centralPanel.add(setSizeBtn, position.nextRow());
+        centralPanel.add(clearBtn, position.nextRow());
+        centralPanel.add(trimToSizeBtn, position.nextRow());
 
         vectorPanel.setBackground(Color.GRAY);
         this.renderVector();
         JScrollPane scrollPane = new JScrollPane(vectorPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
         this.setLayout(new BorderLayout());
-        // this.add(vectorPanel, BorderLayout.CENTER);
-        this.add(controlPanel, BorderLayout.EAST);
-
-        JPanel centerPanel = new JPanel(new GridLayout(3, 1));
-        centerPanel.add(new JPanel());
-        centerPanel.add(new JPanel());
-        centerPanel.add(scrollPane);
-
+        this.add(centralPanel, BorderLayout.EAST);
         this.add(scrollPane, BorderLayout.NORTH);
     }
 
     private void renderVector() {
-        vectorPanel.removeAll();
-
         for (Object elem : vector)
             vectorPanel.add(new VectorElem(elem.toString()));
 
         for (int i = 0; i < vector.capacity() - vector.size(); i++)
             vectorPanel.add(new VectorElem("."));
-
-
-        vectorPanel.repaint();
-
     }
 
     public void actionPerformed(ActionEvent event) {
-        String cmd = event.getActionCommand();
-
-        switch (cmd) {
-
+        switch (event.getActionCommand()) {
             case addElemCmd -> {
-
+                JOptionPane smth = new JOptionPane();
                 /// add an element to a vector
-                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
-                if (elem != null) {
-
-                    vector.add(elem);
-                    this.renderVector();
-                }
-
             }
             case remElemCmd -> {
-                //ask user for an index
-                //remove an element from a vector
-                String s = JOptionPane.showInputDialog("Enter vector index");
-                int index = Integer.parseInt(s);
-                vector.remove(index);
-                this.renderVector();
             }
-
             case insertElemCmd -> {
-                System.out.println("insert");
-                /// inserts an element at some place into a vector
             }
             case setElemCmd -> {
-                System.out.println("replace");
-                /// replacing an element in a vector
             }
             case setSizeCmd -> {
-                System.out.println("set");
-                /// setting the size of a vector
             }
             case clearVectorCmd -> {
-                System.out.println("clear");
-                /// clears a vector
             }
             case trimToSizeCmd -> {
-                System.out.println("trim");
-                /// trims to size a vector
             }
         }
     }
