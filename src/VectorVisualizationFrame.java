@@ -124,10 +124,25 @@ public class VectorVisualizationFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
         switch (event.getActionCommand()) {
             case addElemCmd -> {
-                JOptionPane smth = new JOptionPane();
-                /// add an element to a vector
+                String elem = JOptionPane.showInputDialog(this, "Введіть елемент", "Додати елемент", JOptionPane.QUESTION_MESSAGE);
+                if (elem != null) {
+
+                    vector.add(elem);
+                    this.renderVector();
+                }
             }
             case remElemCmd -> {
+                // ask user for index to remove vector element
+                String index = JOptionPane.showInputDialog(this, "Введіть індекс", "Видалити елемент", JOptionPane.QUESTION_MESSAGE);
+                if (index != null) {
+                    try {
+                        int idx = Integer.parseInt(index);
+                        vector.remove(idx);
+                        this.renderVector();
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Невірний індекс", "Помилка", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
             case insertElemCmd -> {
             }
