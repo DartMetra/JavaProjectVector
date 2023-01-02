@@ -122,12 +122,4 @@ public class HtmlHelper {
     public static String emptyBlock() {
         return htmlTag("<div class='empty-block'></div>");
     }
-
-    public static String sizeView(int size) {
-        return htmlTag("<p class='size'>Розмір вектору: " + size + "</p>");
-    }
-
-    public static String capacityView(int capacity) {
-        return htmlTag("<p class='capacity'>Розмір вектору: " + capacity + "</p>");
-    }
 }

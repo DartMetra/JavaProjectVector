@@ -98,6 +98,8 @@ public class InitFrame extends JFrame implements ActionListener {
         this.setVisible(false);
         this.dispose();
 
+        System.out.println(initialCapacity + " " + capacityIncrement + " " + type.name);
+
         new VectorVisualizationFrame(initialCapacity, capacityIncrement, type);
     }
 }
